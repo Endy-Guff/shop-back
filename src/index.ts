@@ -1,9 +1,13 @@
-import express, {Request, Response} from 'express'
+import express, { Request, Response } from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import * as mongoose from "mongoose";
 import bodyParser from "body-parser";
 import errorMiddleware from "./middlewares/error-middleware";
+import cookieParser from 'cookie-parser'
+import { authRouter } from './routers/auth-router';
+import swaggerUi from 'swagger-ui-express';
+import * as swaggerDocument from './swagger-output.json';
 
 dotenv.config();
 
@@ -11,18 +15,18 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const corsOptions = {
     credentials: true,
-    origin: '*'
+    origin: process.env.CLIENT_URL
 }
 app.use(cors(corsOptions))
+app.use(cookieParser())
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Express + TypeScript Server');
-});
 
+app.use('/auth', authRouter)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(errorMiddleware)
 
 

@@ -1,0 +1,209 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "My API",
+      "description": "API Documentation",
+      "version": "1.0.0"
+    },
+    "basePath": "/",
+    "schemes": [
+      "http"
+    ],
+    "definitions": {
+      "User": {
+        "type": "object",
+        "properties":{
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "isActivated": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "example":"400"
+          },
+          "message": {"type": "string"},
+          "errors": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Operations about authentication"
+        }
+    ],
+    "paths": {
+      "/registration": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "Регистрация",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Информация о пользователе для регистрации",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password",
+                  "name",
+                  "date"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Успешная регистрация",
+              "schema": {
+                "type":"object",
+                "properties":{
+                  "accessToken": {
+                    "type": "string"
+                  },
+                  "refreshToken": {
+                    "type": "string"
+                  },
+                  "user": {
+                     "$ref": "#/definitions/User"
+                  }
+                } 
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "",
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/logout": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "",
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/activate/{link}": {
+        "get": {
+          "tags": ["Auth"],
+          "description": "",
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/refresh": {
+        "get": {
+          "tags": ["Auth"],
+          "description": "",
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/me": {
+        "get": {
+          "tags": ["Auth"],
+          "description": "",
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/sendActivate": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "",
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/changePassword": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "",
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/delete/{id}": {
+        "delete": {
+          "tags": ["Auth"],
+          "description": "",
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      }
+    }
+  }
