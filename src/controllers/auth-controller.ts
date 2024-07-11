@@ -88,7 +88,14 @@ class AuthController {
     }
 
     async me(req: Request, res: Response, next: NextFunction) {
-        res.status(400).json('error')
+        try {
+            const { accessToken } = req.cookies
+            const userData = await authService.me(accessToken)
+            return res.json(userData)
+        } catch (e) {
+            next(e)
+
+        }
     }
 
     async changePassword(req: Request, res: Response, next: NextFunction) {

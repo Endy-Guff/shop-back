@@ -56,7 +56,7 @@
       "/registration": {
         "post": {
           "tags": ["Auth"],
-          "description": "Регистрация",
+          "summary": "Регистрация",
           "parameters": [
             {
               "in": "body",
@@ -120,10 +120,55 @@
       "/login": {
         "post": {
           "tags": ["Auth"],
-          "description": "",
+          "summary": "Авторизация",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Информация о пользователе для авторизации",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          ],
           "responses": {
-            "default": {
-              "description": ""
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"object",
+                "properties":{
+                  "accessToken": {
+                    "type": "string"
+                  },
+                  "refreshToken": {
+                    "type": "string"
+                  },
+                  "user": {
+                     "$ref": "#/definitions/User"
+                  }
+                } 
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
             }
           }
         }
@@ -131,21 +176,16 @@
       "/logout": {
         "post": {
           "tags": ["Auth"],
-          "description": "",
+          "summary": "Выход из учетной записи",
           "responses": {
-            "default": {
-              "description": ""
-            }
-          }
-        }
-      },
-      "/activate/{link}": {
-        "get": {
-          "tags": ["Auth"],
-          "description": "",
-          "responses": {
-            "default": {
-              "description": ""
+            "200": {
+              "description": "Успешно"
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
             }
           }
         }
@@ -153,10 +193,30 @@
       "/refresh": {
         "get": {
           "tags": ["Auth"],
-          "description": "",
+          "summary": "Перезапрос токена",
           "responses": {
-            "default": {
-              "description": ""
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"object",
+                "properties":{
+                  "accessToken": {
+                    "type": "string"
+                  },
+                  "refreshToken": {
+                    "type": "string"
+                  },
+                  "user": {
+                     "$ref": "#/definitions/User"
+                  }
+                } 
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
             }
           }
         }
@@ -164,10 +224,20 @@
       "/me": {
         "get": {
           "tags": ["Auth"],
-          "description": "",
+          "summary": "Получение пользователя",
           "responses": {
-            "default": {
-              "description": ""
+            "200": {
+              "description": "Успешная регистрация",
+              "schema": {
+                "type":"object",
+                "$ref": "#/definitions/User"
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
             }
           }
         }
@@ -175,10 +245,36 @@
       "/sendActivate": {
         "post": {
           "tags": ["Auth"],
-          "description": "",
+          "summary": "Отправить ссылку подтверждения на email",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Email пользователя",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                }
+              }
+            }
+          ],
           "responses": {
-            "default": {
-              "description": ""
+            "200": {
+              "description": "Успешно"
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
             }
           }
         }
@@ -186,10 +282,46 @@
       "/changePassword": {
         "post": {
           "tags": ["Auth"],
-          "description": "",
+          "summary": "Смена пароля",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Информация о пользователе для смены пароля",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "oldPassword",
+                  "newPassword"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "oldPassword": {
+                    "type": "string",
+                    "format": "password"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          ],
           "responses": {
-            "default": {
-              "description": ""
+            "200": {
+              "description": "Успешно"
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
             }
           }
         }
@@ -197,10 +329,25 @@
       "/delete/{id}": {
         "delete": {
           "tags": ["Auth"],
-          "description": "",
+          "summary": "Удаление учетной записи",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Уникальный идентификатор пользователя",
+              "type": "string"
+            }
+         ],
           "responses": {
-            "default": {
-              "description": ""
+            "200": {
+              "description": "Успешно"
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
             }
           }
         }

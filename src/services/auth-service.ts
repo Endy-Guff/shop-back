@@ -59,7 +59,15 @@ class AuthService {
     }
 
     async logout(refreshToken: ITokenSchema['refreshToken']) {
-        const token = await tokenService.removeToken(refreshToken)
+        await tokenService.removeToken(refreshToken)
+    }
+
+    async me(accessToken: string) {
+        const user = tokenService.validateAccessToken(accessToken)
+        if (!user) {
+            throw ApiError.UnauthorizedError()
+        }
+        return createUserDto(user)
     }
 
     async refresh(refreshToken: ITokenSchema['refreshToken']) {
