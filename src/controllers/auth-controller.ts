@@ -22,7 +22,7 @@ class AuthController {
                 maxAge: 60 * 30 * 1000,
                 secure: true,
             })
-            return res.json(userData)
+            return res.json(userData.user)
         } catch (e) {
             next(e)
         }
@@ -41,7 +41,7 @@ class AuthController {
                 maxAge: 60 * 30 * 1000,
                 secure: true,
             })
-            return res.json(userData)
+            return res.json(userData.user)
         } catch (e) {
             next(e)
         }
@@ -50,7 +50,8 @@ class AuthController {
     async logout(req: Request, res: Response, next: NextFunction) {
         try {
             const { refreshToken } = req.cookies
-            const token = await authService.logout(refreshToken)
+            await authService.logout(refreshToken)
+            res.clearCookie('accessToken')
             res.clearCookie('refreshToken')
             return res.status(200).send()
         } catch (e) {
@@ -81,7 +82,7 @@ class AuthController {
                 maxAge: 60 * 30 * 1000,
                 secure: true,
             })
-            return res.json(userData)
+            return res.json(userData.user)
         } catch (e) {
             next(e)
         }
@@ -112,6 +113,8 @@ class AuthController {
         try {
             const id = req.params.id
             await authService.delete(id)
+            res.clearCookie('accessToken')
+            res.clearCookie('refreshToken')
             return res.status(200).send()
         } catch (e) {
             next(e)

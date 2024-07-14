@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
 import TokenModel, { ITokenSchema } from '../models/token-model'
 import { IUserSchema } from "../models/user-model.js";
+import UserDto from "../dtos/userDto";
 
 class TokenService {
-    generateTokens(payload: IUserSchema) {
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET || 'jwt-secret-key', { expiresIn: '30m' })
-        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET || 'jwt-refresh-secret-key', { expiresIn: '30d' })
+    generateTokens(payload: UserDto) {
+        const accessToken = jwt.sign(payload.toJSON(), process.env.JWT_ACCESS_SECRET || 'jwt-secret-key', { expiresIn: '30m' })
+        const refreshToken = jwt.sign(payload.toJSON(), process.env.JWT_REFRESH_SECRET || 'jwt-refresh-secret-key', { expiresIn: '30d' })
         return {
             accessToken,
             refreshToken
@@ -23,7 +24,7 @@ class TokenService {
     }
 
     async removeToken(refreshToken: ITokenSchema['refreshToken']) {
-        const tokenData = await TokenModel.deleteOne({ refreshToken })
+        await TokenModel.deleteOne({ refreshToken })
     }
 
     validateAccessToken(token: string) {

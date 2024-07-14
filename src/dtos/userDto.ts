@@ -8,10 +8,20 @@ export default class UserDto {
     avatar
 
     constructor(model: IUserSchema) {
-        this.email = model.email
         this.id = model.id
+        this.email = model.email
         this.isActivated = model.isActivated
         this.name = model.name
-        this.avatar = model.avatar
+        this.avatar = model.avatar || null
+    }
+
+    toJSON() {
+        return {
+            id: this.id,
+            email: this.email,
+            isActivated: this.isActivated,
+            name: this.name,
+            avatar: this.avatar
+        };
     }
 }

@@ -26,11 +26,11 @@ class AuthService {
             activationLink,
             name
         })
-
-        const tokens = tokenService.generateTokens(user)
+        const userDto = createUserDto(user)
+        const tokens = tokenService.generateTokens(userDto)
         await tokenService.saveToken(user.id, tokens.refreshToken)
 
-        return { user: createUserDto(user), ...tokens }
+        return { user: userDto, ...tokens }
     }
 
     async activate(activationLink: string) {
@@ -52,10 +52,12 @@ class AuthService {
         if (!isPassEquals) {
             throw ApiError.BadRequest('Данные для входа неверны')
         }
-        const tokens = tokenService.generateTokens(user)
+        const userDto = createUserDto(user)
+
+        const tokens = tokenService.generateTokens(userDto)
         await tokenService.saveToken(user.id, tokens.refreshToken)
 
-        return { user: createUserDto(user), ...tokens }
+        return { user: userDto, ...tokens }
     }
 
     async logout(refreshToken: ITokenSchema['refreshToken']) {
@@ -83,9 +85,11 @@ class AuthService {
 
         const user = await UserModel.findById(userData.id)
         if (user) {
-            const tokens = tokenService.generateTokens(user)
+            const userDto = createUserDto(user)
+
+            const tokens = tokenService.generateTokens(userDto)
             await tokenService.saveToken(user.id, tokens.refreshToken)
-            return { user: createUserDto(user), ...tokens }
+            return { user: userDto, ...tokens }
         } else throw ApiError.UnauthorizedError()
     }
 

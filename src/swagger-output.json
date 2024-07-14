@@ -53,7 +53,7 @@
         }
     ],
     "paths": {
-      "/registration": {
+      "/auth/registration": {
         "post": {
           "tags": ["Auth"],
           "summary": "Регистрация",
@@ -95,17 +95,7 @@
               "description": "Успешная регистрация",
               "schema": {
                 "type":"object",
-                "properties":{
-                  "accessToken": {
-                    "type": "string"
-                  },
-                  "refreshToken": {
-                    "type": "string"
-                  },
-                  "user": {
-                     "$ref": "#/definitions/User"
-                  }
-                } 
+                "$ref": "#/definitions/User"
               }
             },
             "400": {
@@ -117,7 +107,7 @@
           }
         }
       },
-      "/login": {
+      "/auth/login": {
         "post": {
           "tags": ["Auth"],
           "summary": "Авторизация",
@@ -151,17 +141,7 @@
               "description": "Успешно",
               "schema": {
                 "type":"object",
-                "properties":{
-                  "accessToken": {
-                    "type": "string"
-                  },
-                  "refreshToken": {
-                    "type": "string"
-                  },
-                  "user": {
-                     "$ref": "#/definitions/User"
-                  }
-                } 
+                "$ref": "#/definitions/User"
               }
             },
             "400": {
@@ -173,8 +153,8 @@
           }
         }
       },
-      "/logout": {
-        "post": {
+      "/auth/logout": {
+        "get": {
           "tags": ["Auth"],
           "summary": "Выход из учетной записи",
           "responses": {
@@ -190,7 +170,7 @@
           }
         }
       },
-      "/refresh": {
+      "/auth/refresh": {
         "get": {
           "tags": ["Auth"],
           "summary": "Перезапрос токена",
@@ -199,17 +179,7 @@
               "description": "Успешно",
               "schema": {
                 "type":"object",
-                "properties":{
-                  "accessToken": {
-                    "type": "string"
-                  },
-                  "refreshToken": {
-                    "type": "string"
-                  },
-                  "user": {
-                     "$ref": "#/definitions/User"
-                  }
-                } 
+                "$ref": "#/definitions/User"
               }
             },
             "400": {
@@ -221,7 +191,7 @@
           }
         }
       },
-      "/me": {
+      "/auth/me": {
         "get": {
           "tags": ["Auth"],
           "summary": "Получение пользователя",
@@ -242,7 +212,7 @@
           }
         }
       },
-      "/sendActivate": {
+      "/auth/send-activate": {
         "post": {
           "tags": ["Auth"],
           "summary": "Отправить ссылку подтверждения на email",
@@ -279,7 +249,7 @@
           }
         }
       },
-      "/changePassword": {
+      "/auth/change-password": {
         "post": {
           "tags": ["Auth"],
           "summary": "Смена пароля",
@@ -326,7 +296,7 @@
           }
         }
       },
-      "/delete/{id}": {
+      "/auth/delete/{id}": {
         "delete": {
           "tags": ["Auth"],
           "summary": "Удаление учетной записи",
