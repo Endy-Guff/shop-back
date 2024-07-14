@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
 import { authRouter } from './routers/auth-router';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './swagger-output.json';
+import { adminRouter } from './routers/admin-routers';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(cookieParser())
 
 
 app.use('/auth', authRouter)
+app.use('/admin', adminRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(errorMiddleware)
 
