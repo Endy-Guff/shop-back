@@ -58,13 +58,17 @@
       }
     },
     "tags": [
-        {
-            "name": "Auth",
-            "description": "Операции аутентификации"
-        },
-        {
-          "name": "Admin - Categories",
-          "description": "Операции аутентификации"
+      {
+        "name": "Auth",
+        "description": "Операции аутентификации"
+      },
+      {
+        "name": "Categories",
+        "description": "Операции аутентификации"
+      },
+      {
+        "name": "Admin - Categories",
+        "description": "Операции аутентификации"
       }
     ],
     "paths": {
@@ -327,6 +331,29 @@
           "responses": {
             "200": {
               "description": "Успешно"
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/categories": {
+        "get": {
+          "tags": ["Categories"],
+          "summary": "Получение всех категорий",
+          "responses": {
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"array",
+                "items": {
+                  "$ref": "#/definitions/Category"
+                }
+              }
             },
             "400": {
               "description": "Ошибка",
