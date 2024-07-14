@@ -96,25 +96,31 @@ class AuthService {
     async changePassword(
         email: IUserSchema['email'],
         password: IUserSchema['password'],
-        newPassword: IUserSchema['password']
+        newPassword: IUserSchema['password'],
+        accessToken: string
     ) {
-        const user = await UserModel.findOne({ email })
+        const user = tokenService.validateAccessToken(accessToken)
         if (!user) {
+            throw ApiError.UnauthorizedError()
+        }
+        const userData = await UserModel.findOne({ email })
+        if (!userData) {
             throw ApiError.BadRequest('Ошибка')
         }
-        const isPassEquals = await bcrypt.compare(password, user.password)
+        const isPassEquals = await bcrypt.compare(password, userData.password)
         if (!isPassEquals) {
             throw ApiError.BadRequest('Пароль неверный')
         }
         const hashPassword = await bcrypt.hash(newPassword, 3)
-        user.password = hashPassword
-        await user.save()
+        userData.password = hashPassword
+        await userData.save()
     }
 
     async delete(id: IUserSchema['id']) {
         try {
-            const res = await UserModel.findByIdAndDelete(id)
-            return res
+            await UserModel.findByIdAndDelete(id)
+            await tokenService.deleteToken(id)
+            return
         } catch (e) {
             throw ApiError.BadRequest('Удалить не удалось')
         }

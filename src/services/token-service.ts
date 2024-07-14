@@ -49,6 +49,11 @@ class TokenService {
         const tokenData = await TokenModel.findOne({ refreshToken })
         return tokenData
     }
+
+    async deleteToken(userId: IUserSchema['id']) {
+        await TokenModel.findOneAndDelete({ user: userId })
+        return
+    }
 }
 
 export default new TokenService()
