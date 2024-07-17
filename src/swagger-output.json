@@ -55,6 +55,33 @@
             "type": "string"
           }
         }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "category": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "description": {
+            "type": "string"
+          }, 
+          "stock": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
       }
     },
     "tags": [
@@ -64,11 +91,19 @@
       },
       {
         "name": "Categories",
-        "description": "Операции аутентификации"
+        "description": "Категории"
+      },
+      {
+        "name": "Products",
+        "description": "Продукты"
       },
       {
         "name": "Admin - Categories",
-        "description": "Операции аутентификации"
+        "description": "Админ категории"
+      },
+      {
+        "name": "Admin - Products",
+        "description": "Админ продукты"
       }
     ],
     "paths": {
@@ -364,6 +399,29 @@
           }
         }
       },
+      "/products": {
+        "get": {
+          "tags": ["Products"],
+          "summary": "Получение всех товаров",
+          "responses": {
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"array",
+                "items": {
+                  "$ref": "#/definitions/Product"
+                }
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
       "/admin/categories/create": {
         "post": {
           "tags": ["Admin - Categories"],
@@ -393,6 +451,61 @@
               "schema": {
                 "type":"object",
                 "$ref": "#/definitions/Category"
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/admin/products/create": {
+        "post": {
+          "tags": ["Admin - Products"],
+          "summary": "Создание нового товара",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Название нового товара",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "price",
+                  "category"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "category": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                  },
+                  "description": {
+                    "type": "string"
+                  }, 
+                  "stock": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"object",
+                "$ref": "#/definitions/Product"
               }
             },
             "400": {

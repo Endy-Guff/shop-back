@@ -10,6 +10,7 @@ import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from './swagger-output.json';
 import { adminRouter } from './routers/admin-routers';
 import { categoriesRouter } from './routers/categories-router';
+import { productsRouter } from './routers/products-router';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(cookieParser())
 
 app.use('/auth', authRouter)
 app.use('/categories', categoriesRouter)
+app.use('/products', productsRouter)
 app.use('/admin', adminRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(errorMiddleware)
