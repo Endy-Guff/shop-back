@@ -422,7 +422,7 @@
           }
         }
       },
-      "/admin/categories/create": {
+      "/admin/categories": {
         "post": {
           "tags": ["Admin - Categories"],
           "summary": "Создание новой категории",
