@@ -14,5 +14,23 @@ class CategoriesService {
         const category = await CategoryModel.create({ name })
         return category
     }
+
+    async update(id: ICategorySchema['id'], name?: ICategorySchema['name']) {
+        try {
+            const updatedData = await CategoryModel.findByIdAndUpdate(
+                id,
+                { name },
+                { new: true }
+            );
+
+            if (updatedData) {
+                return updatedData
+            } else {
+                throw new ApiError(404, 'Данные не найдены')
+            }
+        } catch (error) {
+            throw ApiError.ServerError()
+        }
+    }
 }
 export default new CategoriesService()

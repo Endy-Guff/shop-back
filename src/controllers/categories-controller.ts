@@ -21,6 +21,17 @@ class CategoriesController {
             next(e)
         }
     }
+
+    async update(req: Request<{ categoryId: ICategorySchema['id'] }, void, { name?: ICategorySchema['name'] }>, res: Response, next: NextFunction) {
+        try {
+            const categoryId = req.params.categoryId
+            const { name } = req.body
+            const category = await categoriesService.update(categoryId, name)
+            return res.json(category)
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 export default new CategoriesController()

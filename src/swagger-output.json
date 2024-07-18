@@ -462,6 +462,50 @@
           }
         }
       },
+      "/admin/categories/{categoryId}": {
+        "patch": {
+          "tags": ["Admin - Categories"],
+          "summary": "Обновление категории",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Уникальный идентификатор категории",
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Название категории",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"object",
+                "$ref": "#/definitions/Category"
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
       "/admin/products/create": {
         "post": {
           "tags": ["Admin - Products"],
