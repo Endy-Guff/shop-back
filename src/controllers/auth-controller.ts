@@ -29,8 +29,13 @@ class AuthController {
         }
     }
 
-    async login(req: Request<void, void, Pick<TRegistrationRequestBody, 'email' | 'password'>>, res: Response, next: NextFunction) {
+    async login(req: Request<{}, void, Pick<TRegistrationRequestBody, 'email' | 'password'>>, res: Response, next: NextFunction) {
         try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                const error = ApiError.BadRequest('Ошибка при валидации', errors.array());
+                next(error)
+            }
             const { email, password } = req.body
             const userData = await authService.login(email, password)
             res.cookie('refreshToken', userData.refreshToken, {
@@ -102,6 +107,11 @@ class AuthController {
 
     async changePassword(req: IRequestWithCookies<{}, void, IChangePasswordRequestBody>, res: Response, next: NextFunction) {
         try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                const error = ApiError.BadRequest('Ошибка при валидации', errors.array());
+                next(error)
+            }
             const { email, oldPassword, newPassword } = req.body
             const { accessToken } = req.cookies
             await authService.changePassword(email, oldPassword, newPassword, accessToken)
@@ -125,8 +135,13 @@ class AuthController {
         }
     }
 
-    async sendActivate(req: Request<void, void, Pick<TRegistrationRequestBody, 'email'>>, res: Response, next: NextFunction) {
+    async sendActivate(req: Request<{}, void, Pick<TRegistrationRequestBody, 'email'>>, res: Response, next: NextFunction) {
         try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                const error = ApiError.BadRequest('Ошибка при валидации', errors.array());
+                next(error)
+            }
             const { email } = req.body
             await authService.sendActivate(email)
             return res.status(200).send()
