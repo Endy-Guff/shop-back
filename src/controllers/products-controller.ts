@@ -21,6 +21,17 @@ class ProductsController {
             next(e)
         }
     }
+
+    async update(req: Request<{ productId: IProductSchema['id'] }, void, Partial<Omit<IProductSchema, 'id' | 'createdAt' | 'updatedAt'>>>, res: Response, next: NextFunction) {
+        try {
+            const productId = req.params.productId
+            const newProduct = req.body
+            const product = await productsService.update(productId, newProduct)
+            return res.json(product)
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 export default new ProductsController()

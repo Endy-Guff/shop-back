@@ -15,5 +15,23 @@ class ProductsService {
         const category = await ProductModel.create(productParams)
         return category
     }
+
+    async update(id: IProductSchema['id'], newProduct: Partial<Omit<IProductSchema, 'id' | 'createdAt' | 'updatedAt'>>) {
+        try {
+            const updatedData = await ProductModel.findByIdAndUpdate(
+                id,
+                newProduct,
+                { new: true }
+            );
+
+            if (updatedData) {
+                return updatedData
+            } else {
+                throw new ApiError(404, 'Данные не найдены')
+            }
+        } catch (error) {
+            throw ApiError.ServerError()
+        }
+    }
 }
 export default new ProductsService()

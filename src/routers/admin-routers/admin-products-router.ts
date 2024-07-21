@@ -4,4 +4,5 @@ import productsController from "../../controllers/products-controller";
 
 export const adminProductsRouter: Router = express.Router()
 
-adminProductsRouter.post('/create', productsController.create)
+adminProductsRouter.post('/', productsController.create)
+adminProductsRouter.patch('/productId', productsController.update)

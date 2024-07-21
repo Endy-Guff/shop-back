@@ -506,7 +506,7 @@
           }
         }
       },
-      "/admin/products/create": {
+      "/admin/products": {
         "post": {
           "tags": ["Admin - Products"],
           "summary": "Создание нового товара",
@@ -523,6 +523,63 @@
                   "price",
                   "category"
                 ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "category": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                  },
+                  "description": {
+                    "type": "string"
+                  }, 
+                  "stock": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"object",
+                "$ref": "#/definitions/Product"
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/admin/products/{productId}": {
+        "patch": {
+          "tags": ["Admin - Products"],
+          "summary": "Обновление товара",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "Уникальный идентификатор товара",
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Товар",
+              "required": true,
+              "schema": {
+                "type": "object",
                 "properties": {
                   "name": {
                     "type": "string"

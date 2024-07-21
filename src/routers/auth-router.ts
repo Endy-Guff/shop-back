@@ -13,7 +13,7 @@ authRouter.post('/registration', body('email').isEmail(), body('password').isLen
 authRouter.post('/login', [
     body('email').isString().isEmail(),
     body('password').isString()
-])
+], AuthController.login)
 authRouter.get('/logout', AuthController.logout)
 authRouter.get('/activate/:link', AuthController.activate)
 authRouter.get('/refresh', AuthController.refresh)
