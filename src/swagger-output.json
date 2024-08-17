@@ -468,7 +468,7 @@
           "summary": "Обновление категории",
           "parameters": [
             {
-              "name": "id",
+              "name": "categoryId",
               "in": "path",
               "required": true,
               "description": "Уникальный идентификатор категории",
@@ -567,7 +567,7 @@
           "summary": "Обновление товара",
           "parameters": [
             {
-              "name": "id",
+              "name": "productId",
               "in": "path",
               "required": true,
               "description": "Уникальный идентификатор товара",
