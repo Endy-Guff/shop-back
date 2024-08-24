@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import * as mongoose from "mongoose";
@@ -11,12 +11,14 @@ import * as swaggerDocument from './swagger-output.json';
 import { adminRouter } from './routers/admin-routers';
 import { categoriesRouter } from './routers/categories-router';
 import { productsRouter } from './routers/products-router';
+import fileUpload from 'express-fileupload';
+import path from "path";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
-
+app.use(fileUpload({}))
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -33,6 +35,7 @@ app.use('/categories', categoriesRouter)
 app.use('/products', productsRouter)
 app.use('/admin', adminRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/products-photo', express.static(path.join(__dirname, 'static', 'products-photo')))
 app.use(errorMiddleware)
 
 

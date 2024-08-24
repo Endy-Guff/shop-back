@@ -12,10 +12,11 @@ class ProductsController {
         }
     }
 
-    async create(req: Request<void, void, Omit<IProductSchema, 'createdAt' | 'updatedAt'>>, res: Response, next: NextFunction) {
+    async create(req: Request<{}, void, Omit<IProductSchema, 'createdAt' | 'updatedAt'>>, res: Response, next: NextFunction) {
         try {
             const productParams = req.body
-            const product = await productsService.create(productParams)
+            const file = req.files?.file
+            const product = await productsService.create(productParams, file)
             return res.json(product)
         } catch (e) {
             next(e)

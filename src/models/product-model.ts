@@ -9,6 +9,7 @@ export interface IProductSchema {
     category: string[]
     createdAt: string
     updatedAt: string
+    photo?: string
     description?: string
     stock?: number
 }
@@ -19,6 +20,7 @@ const ProductSchema = new Schema<IProductSchema>({
     price: { type: Number, required: true },
     category: [{ type: Schema.Types.ObjectId, ref: 'Category', required: true }],
     stock: { type: Number, default: 0 },
+    photo: { type: String },
     createdAt: { type: String, default: () => new Date().toISOString() },
     updatedAt: { type: String, default: () => new Date().toISOString() }
 });

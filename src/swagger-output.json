@@ -75,6 +75,9 @@
           "stock": {
             "type": "number"
           },
+          "photo": {
+            "type": "string"
+          },
           "createdAt": {
             "type": "string"
           },
@@ -510,38 +513,52 @@
         "post": {
           "tags": ["Admin - Products"],
           "summary": "Создание нового товара",
+          "consumes": ["multipart/form-data"],
           "parameters": [
             {
-              "in": "body",
-              "name": "body",
+              "in": "formData",
+              "name": "name",
               "description": "Название нового товара",
               "required": true,
-              "schema": {
-                "type": "object",
-                "required": [
-                  "name",
-                  "price",
-                  "category"
-                ],
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "price": {
-                    "type": "number"
-                  },
-                  "category": {
-                    "type": "array",
-                    "items": {"type": "string"}
-                  },
-                  "description": {
-                    "type": "string"
-                  }, 
-                  "stock": {
-                    "type": "number"
-                  }
-                }
+              "type": "string"
+            },
+            {
+              "in": "formData",
+              "name": "price",
+              "description": "Цена товара",
+              "required": true,
+              "type": "number"
+            },
+            {
+              "in": "formData",
+              "name": "category",
+              "description": "Категории товара",
+              "required": true,
+              "type": "array",
+              "items": {
+                "type": "string"
               }
+            },
+            {
+              "in": "formData",
+              "name": "description",
+              "description": "Описание товара",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "in": "formData",
+              "name": "stock",
+              "description": "Количество товара на складе",
+              "required": false,
+              "type": "number"
+            },
+            {
+              "in": "formData",
+              "name": "file",
+              "description": "Файл изображения товара",
+              "required": false,
+              "type": "file"
             }
           ],
           "responses": {

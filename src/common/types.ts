@@ -1,5 +1,6 @@
 import { IUserSchema } from "../models/user-model";
 import { Request } from 'express'
+import { UploadedFile } from 'express-fileupload';
 
 export type TRegistrationRequestBody = Pick<IUserSchema, 'email' | 'password' | 'registrationDate' | 'name'>
 
