@@ -31,6 +31,32 @@
           }
         }
       },
+      "Review": {
+        "type": "object",
+        "properties":{
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
       "Error": {
         "type": "object",
         "properties": {
@@ -99,6 +125,10 @@
       {
         "name": "Products",
         "description": "Продукты"
+      },
+      {
+        "name": "Reviews",
+        "description": "Отзывы"
       },
       {
         "name": "Admin - Categories",
@@ -414,6 +444,138 @@
                 "items": {
                   "$ref": "#/definitions/Product"
                 }
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/reviews/{productId}": {
+        "get": {
+          "tags": ["Reviews"],
+          "summary": "Получение всех отзывов",
+          "parameters": [
+            {
+              "name": "productId",
+              "in": "path",
+              "required": true,
+              "description": "Уникальный идентификатор продукта",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"array",
+                "items": {
+                  "$ref": "#/definitions/Review"
+                }
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": ["Reviews"],
+          "summary": "Создание нового отзыва",
+          "parameters": [
+            {
+              "name": "productId",
+              "in": "path",
+              "required": true,
+              "description": "Уникальный идентификатор продукта",
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Информация об отзыве",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": [
+                  "text",
+                  "rating"
+                ],
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "rating": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"object",
+                "$ref": "#/definitions/Review"
+              }
+            },
+            "400": {
+              "description": "Ошибка",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          }
+        }
+      },
+      "/reviews/{reviewId}": {
+        "patch": {
+          "tags": ["Reviews"],
+          "summary": "Обновление товара",
+          "parameters": [
+            {
+              "name": "reviewId",
+              "in": "path",
+              "required": true,
+              "description": "Уникальный идентификатор отзыва",
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Информация об отзыве",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "required": [
+                  "text",
+                  "rating"
+                ],
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "rating": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Успешно",
+              "schema": {
+                "type":"object",
+                "$ref": "#/definitions/Review"
               }
             },
             "400": {

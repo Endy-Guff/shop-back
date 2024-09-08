@@ -13,6 +13,7 @@ import { categoriesRouter } from './routers/categories-router';
 import { productsRouter } from './routers/products-router';
 import fileUpload from 'express-fileupload';
 import path from "path";
+import { reviewsRouter } from './routers/reviews-router';
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use(cookieParser())
 app.use('/auth', authRouter)
 app.use('/categories', categoriesRouter)
 app.use('/products', productsRouter)
+app.use('/reviews', reviewsRouter)
 app.use('/admin', adminRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/products-photo', express.static(path.join(__dirname, 'static', 'products-photo')))
